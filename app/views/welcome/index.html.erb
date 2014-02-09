@@ -1,0 +1,42 @@
+<h1>CALIFORNIA AVERAGE SNOWPACK</h1>
+<h3>Percent of Normal</h3>
+<h3><%= @query_date %></h3>
+
+<div class='container'>
+  <div class='outer'>
+    <div class='inner'><%= number_to_percentage(@percent * 100, precision: 0) %></div>
+  </div>
+</div>
+
+<style type="text/css">
+  h3, h1 {
+    text-align: center;
+  }
+  .outer {
+    border: solid black 5px;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+    border-top: none;
+    height: 400px;
+    width: 50%;
+    margin-left: 25%;
+    background: #4369C8;
+    float: left;
+  }
+
+  .inner {
+    height: <%= @tot %>px;
+    width: 100%; 
+    background: white;
+    line-height: <%= 400 + @tot %>px;
+    text-align: center;
+    color: white;
+    font-size: 20px;
+  }
+
+  .container {
+    height: 600px;
+    width: 100%;
+  }
+
+</style>
