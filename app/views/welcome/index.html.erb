@@ -7,6 +7,7 @@
     <div class='inner'><%= number_to_percentage(@percent * 100, precision: 0) %></div>
   </div>
 </div>
+<div class='footer'><div class='texter'><%= copyright_notice_year_range(2014) %> <a target='_blank' href="http://github.com/brooks">Broppler</a>  All Rights Reserved</div></div>
 
 <style type="text/css">
   h3, h1 {
@@ -35,8 +36,27 @@
   }
 
   .container {
-    height: 600px;
+    height: 500px;
     width: 100%;
+  }
+
+  .footer {
+    width: 100%;
+    height: 30px;
+    color: black;
+  }
+  
+  a {
+    color: black;
+    text-decoration: none;
+  }
+
+  a:hover {
+    color: #4369C8;
+  }
+
+  .texter {
+    float: right;
   }
 
 </style>
