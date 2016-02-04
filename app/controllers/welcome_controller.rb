@@ -5,17 +5,40 @@ class WelcomeController < ApplicationController
   require 'net/http'
 
   def index
-    @actual_date_plus_one = Date.today.strftime('%m/%d/%y')
-    @actual_date = Date.yesterday.strftime('%m/%d/%y')
-    @query_date = Date.yesterday.strftime('%d-%b-%Y')
+    retrieve_measurement(Date.current)
+  end
 
-    params = {'actualDate' => @actual_date, 'actualDatePlus1' => @actual_date_plus_one, 'querydate' => @query_date}
-    x = Net::HTTP.post_form(URI.parse('http://cdec.water.ca.gov/cdecapp/snowapp/getSWCState.action'), params)
+  def retrieve_measurement(date)
+    if @measurement = Measurement.find_by_date(date)
+      @measurement
+    else
+      begin
+        data = Nokogiri::HTML.parse(http_request.body).css('td')
+        percent = data.last.content.sub(/%/, '').to_i
+        @measurement = Measurement.create_by_date_and_percent(date, percent)
+      rescue
+        @measurement = Measurement.create_by_date_and_percent(date, 0)
+      end
+    end
+  end
 
-    doc = Nokogiri::HTML.parse(x.body)
-    data = doc.css('td')
-    
-    @percent = data.last.content[0..1].to_i/100.to_f
-    @tot = 400-(400 * @percent)
+  def http_request
+    Net::HTTP.post_form(URI.parse('http://cdec.water.ca.gov/cdecapp/snowapp/getSWCState.action'), query_params)
+  end
+
+  def query_params
+    {
+      'actualDate' => yesterday('%m/%d/%y'),
+      'actualDatePlus1' => today('%m/%d/%y'),
+      'querydate' => yesterday('%d-%b-%Y')
+    }
+  end
+
+  def today(format)
+    Date.today.strftime(format)
+  end
+
+  def yesterday(format)
+    Date.yesterday.strftime(format)
   end
 end

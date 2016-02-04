@@ -3,21 +3,9 @@ development:
   encoding: unicode
   database: snow_machine_development
   pool: 5
-  username: monsoon
-  password:
 
 test:
   adapter: postgresql
   encoding: unicode
   database: snow_machine_test
   pool: 5
-  username: monsoon
-  password:
-
-production:
-  adapter: postgresql
-  encoding: unicode
-  database: snow_machine_production
-  pool: 5
-  username: monsoon
-  password:
