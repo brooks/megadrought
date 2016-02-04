@@ -9,7 +9,20 @@ class Measurement < ActiveRecord::Base
   end
 
   def top
-    ((percent * -0.1875) + 45).to_i
+    return 80 if summer?
+    ((percent * -0.34375) + 70).to_i
+  end
+
+  def url
+    if summer?
+      'assets/summer.jpeg'
+    else
+      'assets/winter.jpg'
+    end
+  end
+
+  def summer?
+    (6..9).include? date.month
   end
 
 end
